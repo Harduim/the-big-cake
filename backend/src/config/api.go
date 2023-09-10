@@ -7,12 +7,12 @@ import (
 	"github.com/spf13/viper"
 )
 
-type DBConfig struct {
+type APIConfig struct {
 	*viper.Viper
 }
 
-func NewDBConfig() *DBConfig {
-	config := &DBConfig{
+func NewAPIConfig() *APIConfig {
+	config := &APIConfig{
 		Viper: viper.New(),
 	}
 
@@ -36,10 +36,7 @@ func NewDBConfig() *DBConfig {
 	return config
 }
 
-func (config *DBConfig) setDefaults() {
-	// Set default database configuration
-	config.SetDefault("POSTGRES_DB", "cupcake")
-	config.SetDefault("POSTGRES_USER", "USER_UNSET")
-	config.SetDefault("POSTGRES_PASSWORD", "PASSWORD_UNSET")
-	config.SetDefault("POSTGRES_PORT", 5432)
+func (config *APIConfig) setDefaults() {
+	// Set default App configuration
+	config.SetDefault("API_PORT", 3000)
 }
