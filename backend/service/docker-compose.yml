@@ -1,0 +1,28 @@
+version: "3.9"
+name: "cupcake"
+services:
+
+    cupcake_db:
+        image: postgres:15
+        container_name: cupcake_db
+        restart: unless-stopped
+        healthcheck:
+            test: ["CMD", "pg_isready", "-p", "${POSTGRES_PORT:-5432}", "-U", "postgres"]
+            interval: 20s
+            timeout: 5s
+            retries: 3
+        environment:
+            - POSTGRES_DB=$PG_DATABASE
+            - POSTGRES_USER=$PG_USER
+            - POSTGRES_PASSWORD=$PG_PASSWD
+            - POSTGRES_PORT=$PG_PORT
+        networks:
+            - default
+        ports:
+            - 127.0.0.1:${POSTGRES_PORT}:${POSTGRES_PORT}
+
+    cupcake_cache:
+        image: redis:7.2
+        container_name: cupcake_cache
+        ports:
+            - 127.0.0.1:${REDIS_PORT}:${REDIS_PORT}
