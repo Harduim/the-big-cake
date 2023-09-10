@@ -7,7 +7,7 @@ services:
         container_name: cupcake_db
         restart: unless-stopped
         healthcheck:
-            test: ["CMD", "pg_isready", "-p", "${POSTGRES_PORT:-5432}", "-U", "postgres"]
+            test: ["CMD", "pg_isready", "-p", "5432", "-U", "postgres"]
             interval: 20s
             timeout: 5s
             retries: 3
@@ -15,14 +15,13 @@ services:
             - POSTGRES_DB=$POSTGRES_DB
             - POSTGRES_USER=$POSTGRES_USER
             - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-            - POSTGRES_PORT=$POSTGRES_PORT
         networks:
             - default
         ports:
-            - 127.0.0.1:${POSTGRES_PORT}:${POSTGRES_PORT}
+            - 127.0.0.1:${POSTGRES_PORT}:5432
 
     cupcake_cache:
         image: redis:7.2
         container_name: cupcake_cache
         ports:
-            - 127.0.0.1:${REDIS_PORT}:${REDIS_PORT}
+            - 127.0.0.1:${REDIS_PORT}:6379
