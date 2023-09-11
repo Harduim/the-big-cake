@@ -11,15 +11,10 @@ import (
 	"gorm.io/gorm"
 )
 
-type DBConfig struct {
-	*viper.Viper
-	Db *gorm.DB
-}
+var Db *gorm.DB
 
-func NewDBConfig() *DBConfig {
-	config := &DBConfig{
-		Viper: viper.New(),
-	}
+func ConnectDB() {
+	config := viper.New()
 
 	// Select the .env file
 	config.SetConfigName(".env")
@@ -52,7 +47,6 @@ func NewDBConfig() *DBConfig {
 		fmt.Println("Database connection failed:", err.Error())
 		os.Exit(2)
 	}
-	config.Db = db
+	Db = db
 
-	return config
 }

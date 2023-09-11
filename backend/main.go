@@ -2,11 +2,19 @@ package main
 
 import (
 	"github.com/Harduim/the-big-cake/config"
-	"github.com/Harduim/the-big-cake/models"
+	"github.com/Harduim/the-big-cake/router"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	dbConfig := config.NewDBConfig()
-	db := dbConfig.Db
-	db.Find(&models.User{})
+	config.ConnectDB()
+
+	r := gin.Default()
+	router.BindRoutes(r)
+
+	rConfig := config.NewAPIConfig()
+	port := rConfig.GetString("API_PORT")
+
+	r.Run(":" + port)
+
 }
